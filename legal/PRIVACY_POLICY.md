@@ -1,6 +1,6 @@
 # Privacy Policy
 
-**Effective date:** April 25, 2026
+**Effective date:** May 03, 2026
 
 ## Who We Are and What This Policy Covers
 
@@ -64,7 +64,8 @@ We collect information in the ways described below.
 
 ### Information We Collect Automatically
 
-- **Log information.** Our hosting and infrastructure providers (Supabase for database and authorized API access, and Kinde for authentication) generate standard server logs that may include your IP address, user-agent string, request paths, timestamps, and referring URLs. These logs are produced and retained by those providers under their own terms; Teefs's own application code does not write IP addresses to its database.
+- **Log information.** Our hosting and infrastructure providers (Supabase for database and authorized API access, and Kinde for authentication) generate standard server logs that may include your IP address, user-agent string, request paths, timestamps, and referring URLs. These logs are produced and retained by those providers under their own terms.
+- **Security and abuse-prevention data.** To protect our public endpoints (such as the Contact form and the social-share image renderer) from automated abuse and denial-of-service, our application reads the client IP address from standard forwarded request headers (`X-Forwarded-For`, `X-Real-IP`) and sends key derived from it to our rate-limiting provider (**Upstash**) as a short-lived counter. For signed-in callers we use the account identifier instead of the IP. These counters automatically expire at the end of each rate-limit window (typically one hour).
 - **Transactional information.** Records of your interactions with the Services, including question attempts, answer submissions, status changes, and content edits performed by Editors. These records are stored in our database to provide the Services to you.
 - **Usage information.**
   - **Question progress.** When you answer or mark a question, we store the question identifier, the status you assigned ('done', 'learning', or 'needs-review'), the option identifier you submitted (when you completed a question), and timestamps. This data powers your dashboard, your review queues, and the radar-chart review analytics, which are computed on the fly from your stored progress.
@@ -162,6 +163,7 @@ Because there is no industry consensus on how to interpret the "Do Not Track" si
 ---
 
 ## How and Why We Use Information
+- **Rate-limit and protect public endpoints.** We use the client IP address (or, for signed-in users, the account identifier) as a short-lived key in our rate-limiting provider to throttle anonymous traffic to the Contact form, the social-share image renderer, and similar public endpoints, and to mitigate automated abuse, scraping, and denial-of-service.
 
 ### Purposes for Using Information
 
@@ -228,6 +230,7 @@ information, to the extent such bases are required by applicable law:
   - **Resend** — transactional email (Contact form delivery)
   - **Google Fonts** — typography
   - **Unsplash** — image delivery for certain visual assets
+  -  **Upstash** — serverless Redis used for rate limiting and abuse prevention on public endpoints
   - **AI providers** (such as **Anthropic**) — only if and when AI features are enabled in production, and only with non-personal prompts as described above
     Each of these providers processes information under its own terms and privacy policy.
 
@@ -260,6 +263,7 @@ Your **display name** and **avatar** may be visible to other Users in features t
 - **Contact form messages** are retained in our designated support inbox for support follow-up. You may request deletion of past messages.
 - **Consent records** (acceptance of the Terms of Service and this Privacy Policy) are retained for the period needed to demonstrate consent under applicable law.
 - **Backups, server logs, and infrastructure-provider records** are retained according to the standard retention windows of the relevant provider.
+- **Rate-limit counters** (IP- or user-keyed counters at our rate-limiting provider) are retained only for the duration of the applicable rate-limit window (typically one hour) and then automatically expire.
 - We may retain information for longer where required by law, to resolve disputes, to enforce our agreements, or to protect our rights.
 
 ---
